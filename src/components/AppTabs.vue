@@ -1,10 +1,15 @@
 <template>
   <div class="app-tabs">
     <template v-for="tab in tabs">
-      <div :key="tab.name" class="tab-item" :class="{ active: tab.name === active.name }">
+      <div
+          :key="tab.name"
+          class="tab-item"
+          :class="{ active: tab.name === active.name }"
+          @click="onClick(tab.name)"
+      >
         <div class="label">{{ tab.title }}</div>
-        <button @click="reload(tab.name)">Reload</button>
-        <button @click="close(tab.name)">Close</button>
+        <button @click.stop="reload(tab.name)">Reload</button>
+        <button @click.stop="close(tab.name)">Close</button>
       </div>
     </template>
   </div>
@@ -27,11 +32,16 @@ export default defineComponent({
       tabService.close(name)
     }
 
+    function onClick(name) {
+      tabService.setActive(name)
+    }
+
     return {
       tabs,
       active,
       reload,
-      close
+      close,
+      onClick
     }
   }
 })
