@@ -1,23 +1,39 @@
 <template>
   <div class="app-tabs">
-    <div class="tab-item">
-      <div class="label">{{ 'Home' }}</div>
-      <button>Reload</button>
-      <button>Close</button>
-    </div>
-    <div class="tab-item">
-      <div class="label">{{ 'About' }}</div>
-      <button>Reload</button>
-      <button>Close</button>
-    </div>
+    <template v-for="tab in tabs">
+      <div :key="tab.name" class="tab-item" :class="{ active: tab.name === active.name }">
+        <div class="label">{{ tab.title }}</div>
+        <button @click="reload(tab.name)">Reload</button>
+        <button @click="close(tab.name)">Close</button>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, toRef } from '@vue/composition-api'
+import { tabService } from '../services/TabService'
 
 export default defineComponent({
+  setup() {
+    const tabs = toRef(tabService, 'tabs')
+    const active = toRef(tabService, 'active')
 
+    function reload(name) {
+      tabService.reload(name)
+    }
+
+    function close(name) {
+      tabService.close(name)
+    }
+
+    return {
+      tabs,
+      active,
+      reload,
+      close
+    }
+  }
 })
 </script>
 
@@ -39,6 +55,10 @@ export default defineComponent({
 
     button {
       margin: 0 4px;
+    }
+
+    &.active {
+      background-color: #fff;
     }
   }
 }

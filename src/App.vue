@@ -4,6 +4,19 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api'
+import { tabService } from './services/TabService'
+
+export default defineComponent({
+  setup() {
+    return {
+      tabService
+    }
+  }
+})
+</script>
+
 <style lang="less">
 body {
   margin: 0;

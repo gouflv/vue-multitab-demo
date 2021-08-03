@@ -23,3 +23,24 @@ export function assignRoutes(routes: RouteConfig[]): RouteConfig[] {
 function pathToName(path: string) {
   return pascalCase(path.replace(/\//g, ''))
 }
+
+export const findRoute = (
+  routes: RouteConfig[],
+  predicate: (route: RouteConfig) => boolean
+): RouteConfig | null => {
+  let result: RouteConfig | null = null
+
+  function dfs(routes: RouteConfig[]) {
+    routes.forEach(route => {
+      if (predicate(route)) {
+        result = route
+      } else if (route.children) {
+        dfs(route.children)
+      }
+    })
+  }
+
+  dfs(routes)
+
+  return result
+}
