@@ -1,6 +1,10 @@
 import { pascalCase } from 'change-case'
 import { RouteConfig } from 'vue-router'
 
+function pathToName(path: string) {
+  return pascalCase(path.replace(/\//g, ''))
+}
+
 export function assignRoutes(routes: RouteConfig[]): RouteConfig[] {
 
   function dfs(routes: RouteConfig[], parent?: RouteConfig) {
@@ -16,12 +20,7 @@ export function assignRoutes(routes: RouteConfig[]): RouteConfig[] {
   }
 
   dfs(routes)
-
   return routes
-}
-
-function pathToName(path: string) {
-  return pascalCase(path.replace(/\//g, ''))
 }
 
 export const findRoute = (
@@ -41,6 +40,5 @@ export const findRoute = (
   }
 
   dfs(routes)
-
   return result
 }
