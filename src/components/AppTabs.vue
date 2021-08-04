@@ -24,15 +24,15 @@ export default defineComponent({
     const tabs = toRef(tabService, 'tabs')
     const active = toRef(tabService, 'active')
 
-    function reload(name) {
+    function reload(name: string) {
       tabService.reload(name)
     }
 
-    function close(name) {
+    function close(name: string) {
       tabService.close(name)
     }
 
-    function onClick(name) {
+    function onClick(name: string) {
       tabService.setActive(name)
     }
 
