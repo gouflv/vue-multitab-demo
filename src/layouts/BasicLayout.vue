@@ -2,25 +2,39 @@
   <div class="basic-layout">
     <aside>
       <ul>
-        <router-link tag="li" :to="{ name: 'UHome' }">Home</router-link>
-        <router-link tag="li" :to="{ name: 'UAbout'}">About</router-link>
+        <router-link tag="li" :to="{ name: 'ExampleHome' }">Home</router-link>
+        <router-link tag="li" :to="{ name: 'ExampleAbout'}">About</router-link>
       </ul>
     </aside>
     <main>
       <div class="header">
         <AppTabs />
       </div>
-      <router-view />
+
+      <keep-alive :include="opened">
+        <router-view />
+      </keep-alive>
     </main>
   </div>
 </template>
 
 <script>
+import { computed, defineComponent, toRef } from '@vue/composition-api'
 import AppTabs from '../components/AppTabs'
+import { tabService } from '../services/TabService'
 
-export default {
-  components: { AppTabs }
-}
+export default defineComponent( {
+  components: { AppTabs },
+  setup() {
+    const tab = toRef(tabService, 'tabs')
+
+    const opened = computed(() => tab.value.map(t => t.name))
+
+    return {
+      opened
+    }
+  }
+})
 </script>
 
 <style scoped lang="less">

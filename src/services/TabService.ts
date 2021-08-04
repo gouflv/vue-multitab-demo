@@ -23,6 +23,7 @@ export class TabService {
    */
   onRouterChange(route: Route): void {
     if (!route.name) {
+      console.error(route)
       throw new Error('route name is required')
     }
 
@@ -71,7 +72,7 @@ export class TabService {
   }
 
 
-  private add(name: string): TabItem {
+  add(name: string): TabItem {
     const tab = {
       name,
       title: this.findRouteConfig(name).meta?.title,
@@ -82,7 +83,7 @@ export class TabService {
   }
 
 
-  private find(name: string): TabItem {
+  find(name: string): TabItem {
     const found =  this.tabs.find(tab => tab.name === name)
     if (!found) {
       throw new Error(`tab ${name} on found`)
@@ -90,11 +91,11 @@ export class TabService {
     return found
   }
 
-  private has(name: string): boolean {
+  has(name: string): boolean {
     return !!this.tabs.find(tab => tab.name === name)
   }
 
-  private findRouteConfig(name: string): RouteConfig {
+  findRouteConfig(name: string): RouteConfig {
     const found = findRoute(this.routes, route => route.name === name)
     if (!found) {
       throw new Error(`route config ${name} on found`)
