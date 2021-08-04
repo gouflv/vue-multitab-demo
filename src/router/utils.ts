@@ -9,7 +9,7 @@ export function assignRoutes(routes: RouteConfig[]): RouteConfig[] {
 
   function dfs(routes: RouteConfig[], parent?: RouteConfig) {
     routes.forEach(route => {
-      // Named route auto
+      // Generate route name
       const name = pathToName(route.path)
       route.name = parent ? `${parent.name}${name}` : name
 

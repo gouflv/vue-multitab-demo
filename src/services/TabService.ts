@@ -18,6 +18,9 @@ export class TabService {
 
   constructor (private routes: RouteConfig[]) {}
 
+  /**
+   * Vue router guard
+   */
   onRouterChange(route: Route): void {
     if (!route.name) {
       throw new Error('route name is required')
@@ -31,6 +34,9 @@ export class TabService {
     this.active = this.find(route.name)
   }
 
+  /**
+   * Set active tab and navigate to page
+   */
   setActive(name: string): void {
     const found = this.find(name)
 
@@ -41,11 +47,17 @@ export class TabService {
     router.push({ name })
   }
 
+  /**
+   * Route components will re-render by tracking timestamp
+   */
   reload(name: string): void {
     const tab = this.find(name)
     tab.timestamp = Date.now()
   }
 
+  /**
+   * Close tab and active the prev one
+   */
   close(name: string): void {
     const remove = this.find(name)
     const index = this.tabs.indexOf(remove)
